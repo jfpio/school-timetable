@@ -1,0 +1,11 @@
+{
+    "hours": ["8:00-8:45","8:55-9:40", "9:50-11:35", "11:55:12:40", "12:50:13:35", "13:45:14:30", "14:40-15:25", "15:35-16:20", "16:30-17:15"],
+    "rooms":["110","111","120","121"],
+    "groups":["1a","1b","1c","2a","2b","3a","3b","4a","4b"],
+    "classes":["mat","geo","eng","phys","biol"],
+    "teachers":["kowalski","nowak","smith","clarkson","may","hammond","atkinson"],
+    "activities":[
+      {"room":"110", "group":"1a", "class":"mat", "slot":1, "teacher":"kowalski"},
+      {"room":"121", "group":"1c", "class":"eng", "slot":3, "teacher":"nowak"}
+    ]
+}
