@@ -1,0 +1,19 @@
+﻿@model Select
+
+@{
+    ViewData["Title"] = "Planer";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Planista</h1>
+</div>
+
+<form>
+    <div class="form-row">
+        <div class="col-md-10" id="form-group-obiekt">
+            <select id="sel-obiekt" class="form-control" asp-items="@(Model.GroupedOptions)">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary col-md-1" id="btn-select">Wybierz</button>
+    </div>
+</form>

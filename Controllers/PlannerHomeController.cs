@@ -9,20 +9,19 @@ using Z01.Models;
 
 namespace Z01.Controllers
 {
-    public class HomeController : Controller
+    public class PlannerHomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<PlannerHomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public PlannerHomeController(ILogger<PlannerHomeController> logger)
         {
             _logger = logger;
         }
 
-        public string Index()
+        public  IActionResult Index()
         {
             var dataModel = DataStorage.GetDataModel();
-            DataStorage.SaveDataModel(dataModel);
-            return dataModel.ToString();
+            return View(new Select(dataModel));
         }
 
         public IActionResult Privacy()
