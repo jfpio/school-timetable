@@ -18,9 +18,11 @@ namespace Z01.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public string Index()
         {
-            return View();
+            var dataModel = DataStorage.GetDataModel();
+            DataStorage.SaveDataModel(dataModel);
+            return dataModel.ToString();
         }
 
         public IActionResult Privacy()
