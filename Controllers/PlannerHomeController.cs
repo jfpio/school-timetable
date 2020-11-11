@@ -18,10 +18,11 @@ namespace Z01.Controllers
             _logger = logger;
         }
 
-        public  IActionResult Index()
+        public  IActionResult Index([Bind("Key")] TimetableConfig selected = null)
         {
             var dataModel = DataStorage.GetDataModel();
-            return View(new Select(dataModel));
+   
+            return View(new PlannerModel(dataModel, selected));
         }
 
         public IActionResult Privacy()

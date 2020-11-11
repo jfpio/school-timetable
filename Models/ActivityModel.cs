@@ -33,6 +33,31 @@ namespace Z01.Models
         [DisplayName("Nauczyciel")]
         public String Teacher { get; set; }
 
+        [IgnoreDataMember]
+        public dynamic this[string propertyName]
+        {
+            get => GetType().GetProperty(propertyName)?.GetValue(this, null);
+            set => GetType().GetProperty(propertyName)?.SetValue(this, value);
+        }
+        
+        public string ToLabel(TimetableType timetableType)
+        {
+            var label = new StringBuilder();
+            switch (timetableType)
+            {
+                case TimetableType.Group:
+                    label.AppendJoin(" ", Room, Subject);
+                    break;
+                case TimetableType.Teacher:
+                    label.AppendJoin(" ", Room, Subject, Group);
+                    break;
+                case TimetableType.Room:
+                    label.Append(Group);
+                    break;
+            }
+
+            return label.ToString();
+        }
         
         public override string ToString() => $"{Id}-{Slot}-{Room}-{Subject}-{Group}-{Teacher}";
     }

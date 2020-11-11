@@ -1,0 +1,28 @@
+@model Timetable;
+
+<table class="table table-bordered mt-5" style="table-layout:fixed;">
+    <thead class="thead-light">
+    <tr>
+        @foreach (var value in Timetable.ColumnLabels)
+        {
+            <th>@value</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var (slot, activityModels) in Model.Records)
+    {
+        <tr>
+            <td class="bg-light">@slot</td>
+            @foreach (var (_, value) in activityModels)
+            {
+                <td>
+                    <div class="flex-row-btw">
+                        <span>@(value.ToLabel(Model.TimetableConfig.Type))</span>
+                    </div>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,14 +1,31 @@
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Z01.Models
 {
 
-    public class Select
+    public class PlannerModel
     {
+        public TimetableConfig Selected { get; set; }
+
         public List<SelectListItem> GroupedOptions { get; } = new List<SelectListItem>();
-        
-        public Select(DataModel data)
+        public Timetable TableModel { get; private set; }
+
+
+        public PlannerModel(DataModel data, TimetableConfig timetableConfig = null)
+        {
+            InitializeSelect(data);
+            if (timetableConfig != null) 
+                InitializeTable(data, timetableConfig);
+        }
+
+        private void InitializeTable(DataModel data, TimetableConfig timetableConfig)
+        {
+            TableModel = new Timetable(data.Activities, timetableConfig);
+        }
+
+        private void InitializeSelect(DataModel data)
         {
             var classGroup = new SelectListGroup {Name = "Klasy"};
             var teacherGroup = new SelectListGroup {Name = "Nauczyciele"};

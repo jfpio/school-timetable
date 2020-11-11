@@ -1,4 +1,4 @@
-﻿@model Select
+﻿@model PlannerModel
 
 @{
     ViewData["Title"] = "Planer";
@@ -11,9 +11,16 @@
 <form>
     <div class="form-row">
         <div class="col-md-10" id="form-group-obiekt">
-            <select id="sel-obiekt" class="form-control" asp-items="@(Model.GroupedOptions)">
+            <select id="sel-obiekt" class="form-control" asp-for="Selected.Key" asp-items="@(Model.GroupedOptions)">
             </select>
         </div>
         <button type="submit" class="btn btn-primary col-md-1" id="btn-select">Wybierz</button>
     </div>
 </form>
+
+@if (Model.TableModel != null)
+{
+    <div id="render-view">
+        @await Html.PartialAsync("_Timetable", Model.TableModel)
+    </div>
+}
