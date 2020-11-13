@@ -1,36 +1,70 @@
 @model Z01.Models.Planner.EditSlot
-<h2>Edycja</h2>
 
-@using (Html.BeginForm())
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edycja</h1>
+@if (Model.EditedActivity != null)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Aktywność</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.EditedActivity.Id)
-
-        <div class="col-md-10" id="form-group-obiekt">
-            <select id="sel-obiekt" class="form-control" asp-for="EditedActivity.Group" asp-items="@(Model.Groups)">
-            </select>
-            </div>
-        @* <div class="form-group"> *@
-        @*     @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" }) *@
-        @*     <div class="col-md-10"> *@
-        @*         @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } }) *@
-        @*         @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" }) *@
-        @*     </div> *@
-        @* </div> *@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+    <div about="col-md-7">
+        Edytowany wpis ma id @Model.EditedActivity.Id, odbywa się w slocie @Model.Slot, w sali  @Model.EditedActivity.Room,
+        dla klasy @Model.EditedActivity.Group, dla przedmiotu @Model.EditedActivity.Subject, przez nauczyciela @Model.EditedActivity.Teacher
+    </div>
+}
+else
+{
+    <div about="col-md-7">
+        Dodajesz wpis dla slotu @Model.Slot
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="EditSlot">
+            <input type="hidden" asp-for="EditedActivity.Id"/>
+            @Html.HiddenFor(model => model.EditedActivity.Id)
+
+            <div class="form-group" id="form-group-rooms">
+                <label class="control-label">Sala</label>
+                <select id="sel-room" class="form-control" asp-for="EditedActivity.Room" asp-items="@(Model.Rooms)">
+                </select>
+            </div>
+
+            <div class="form-group" id="form-group-groups">
+                <label class="control-label">Klasa</label>
+                <select id="sel-groups" class="form-control" asp-for="EditedActivity.Group" asp-items="@(Model.Groups)">
+                </select>
+            </div>
+
+            <div class="form-group" id="form-group-subjects">
+                <label class="control-label">Przedmiot</label>
+                <select id="sel-subject" class="form-control" asp-for="EditedActivity.Subject" asp-items="@(Model.Subjects)">
+                </select>
+            </div>
+
+            <div class="form-group" id="form-group-teachers">
+                <label class="control-label">Nauczyciel</label>
+                <select id="sel-teacher" class="form-control" asp-for="EditedActivity.Teacher" asp-items="@(Model.Teachers)">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary"/>
+                @if (Model.EditedActivity != null)
+                {
+                    <button type="button" class="btn btn-danger">
+                        Usuń wpis
+                    </button>
+                }
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

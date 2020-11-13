@@ -27,12 +27,14 @@ namespace Z01.Controllers
             return View(new PlannerModel(dataModel, selectedTimeTableConfig));
         }
 
-        public IActionResult EditSlot(int? id, int slot)
+        public IActionResult EditSlot(int? id, int slot, string key)
         {
+            
+            var selectedTimeTableConfig = new TimetableConfig() {Key = key};
             var dataModel = DataStorage.GetDataModel();
             var editedActivity = dataModel.Activities.Find(activity => activity.Id == id);
 
-            return View(new EditSlot(){EditedActivity = editedActivity, Slot = slot});
+            return View(new EditSlot(slot, selectedTimeTableConfig, editedActivity));
         }
         
         public IActionResult Privacy()

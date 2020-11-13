@@ -22,7 +22,7 @@
                         <span>
                             @(value.ToLabel(Model.TimetableConfig.Type))
                             <button 
-                                onclick="location.href='@Url.Action("EditSlot", "Planner", new {Id = value.Id, slot = value.Slot})'"
+                                onclick="location.href='@Url.Action("EditSlot", "Planner", new {Id = value.Id, slot = value.Slot, key = Model.TimetableConfig.Key})'"
                                 type="button"
                                 class="btn btn-outline-secondary btn-sm float-right">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
