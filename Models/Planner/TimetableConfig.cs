@@ -1,19 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Z01.Models.Data;
 
 
-namespace Z01.Models
+
+namespace Z01.Models.Planner
 {
-    public enum TimetableType
-    {
-        None,
-        Group,
-        Teacher,
-        Room
-    }
     public class TimetableConfig
     {
-        public TimetableType Type { get; set; }
+        public Categories Type { get; set; }
         public string Value { get; set; }
 
         public string Key
@@ -22,7 +17,7 @@ namespace Z01.Models
             set
             {
                 var elements = value.Split('-', 2, StringSplitOptions.RemoveEmptyEntries);
-                Type = Enum.TryParse(elements[0], out TimetableType type) ? type : TimetableType.None;
+                Type = Enum.TryParse(elements[0], out Categories type) ? type : Categories.None;
                 Value = elements[1] ?? "";
             }
         }

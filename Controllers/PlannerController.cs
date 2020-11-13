@@ -6,25 +6,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Z01.Models;
+using Z01.Models.Data;
+using Z01.Models.Planner;
 
 namespace Z01.Controllers
 {
-    public class PlannerHomeController : Controller
+    public class PlannerController : Controller
     {
-        private readonly ILogger<PlannerHomeController> _logger;
+        private readonly ILogger<PlannerController> _logger;
 
-        public PlannerHomeController(ILogger<PlannerHomeController> logger)
+        public PlannerController(ILogger<PlannerController> logger)
         {
             _logger = logger;
         }
 
-        public  IActionResult Index([Bind("Key")] TimetableConfig selected = null)
+        public  IActionResult Index([Bind("Key")] TimetableConfig selectedTimeTableConfig = null)
         {
             var dataModel = DataStorage.GetDataModel();
    
-            return View(new PlannerModel(dataModel, selected));
+            return View(new PlannerModel(dataModel, selectedTimeTableConfig));
         }
 
+        public IActionResult EditSlot(int? id, int slot)
+        {
+            var dataModel = DataStorage.GetDataModel();
+            var editedActivity = dataModel.Activities.Find(activity => activity.Id == id);
+
+            return View(new EditSlot(){EditedActivity = editedActivity, Slot = slot});
+        }
+        
         public IActionResult Privacy()
         {
             return View();

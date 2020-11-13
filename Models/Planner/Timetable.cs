@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Z01.Models.Data;
 
-namespace Z01.Models
+
+namespace Z01.Models.Planner
 {
     public class Timetable
     { 
@@ -36,7 +38,7 @@ namespace Z01.Models
                 TimetableConfig timetableConfig
             )
         {
-            if (timetableConfig.Type == TimetableType.None)
+            if (timetableConfig.Type == Categories.None)
                 return new Dictionary<string, Dictionary<string, ActivityModel>>();
 
             var categoryName = timetableConfig.Type.ToString();

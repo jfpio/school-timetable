@@ -50,7 +50,7 @@ namespace Z01
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=PlannerHome}/{action=Index}/{id?}");
+                    pattern: "{controller=Planner}/{action=Index}/{id?}");
             });
         }
     }

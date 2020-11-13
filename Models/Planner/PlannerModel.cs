@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Z01.Models.Data;
 
-namespace Z01.Models
+namespace Z01.Models.Planner
 {
 
     public class PlannerModel
     {
-        public TimetableConfig Selected { get; set; }
+        public TimetableConfig SelectedTimetableConfig { get; set; }
 
         public List<SelectListItem> GroupedOptions { get; } = new List<SelectListItem>();
         public Timetable TableModel { get; private set; }

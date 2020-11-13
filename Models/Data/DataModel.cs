@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 
-namespace Z01.Models
+namespace Z01.Models.Data
 {
     public class DataModel
     {

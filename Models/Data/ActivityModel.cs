@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Z01.Models
+namespace Z01.Models.Data
 {
     public class ActivityModel
     {
@@ -40,18 +40,18 @@ namespace Z01.Models
             set => GetType().GetProperty(propertyName)?.SetValue(this, value);
         }
         
-        public string ToLabel(TimetableType timetableType)
+        public string ToLabel(Categories categories)
         {
             var label = new StringBuilder();
-            switch (timetableType)
+            switch (categories)
             {
-                case TimetableType.Group:
+                case Categories.Group:
                     label.AppendJoin(" ", Room, Subject);
                     break;
-                case TimetableType.Teacher:
+                case Categories.Teacher:
                     label.AppendJoin(" ", Room, Subject, Group);
                     break;
-                case TimetableType.Room:
+                case Categories.Room:
                     label.Append(Group);
                     break;
             }
