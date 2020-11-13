@@ -36,6 +36,34 @@ namespace Z01.Controllers
 
             return View(new EditSlot(slot, selectedTimeTableConfig, editedActivity));
         }
+
+        [HttpPost]
+        public IActionResult EditSlot([Bind("Id, Slot, Room, Subject, Group, Teacher")]
+            ActivityModel editedActivity)
+        {
+            var data = DataStorage.GetDataModel();
+            
+            if (editedActivity.Id != 0)
+            {
+                data.DeleteActivity(editedActivity.Id);
+            }
+            
+            // TODO Error handling
+            
+            data.AddActivity(editedActivity);
+            
+            DataStorage.SaveDataModel(data);
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var data = DataStorage.GetDataModel();
+            data.DeleteActivity(id);
+            DataStorage.SaveDataModel(data);
+            return RedirectToAction(nameof(Index));
+        }
         
         public IActionResult Privacy()
         {

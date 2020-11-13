@@ -58,8 +58,8 @@ namespace Z01.Models.Planner
         
         private static List<SelectListItem> GetAvailableOptions(IEnumerable<string> allOptions, string propertyName, List<ActivityModel> activitiesInSlot, ActivityModel editedActivity)
         {
-            var roomsTakenInSlot = activitiesInSlot.Select(activity => activity[propertyName]).ToList().Distinct();
-            var selectListItem = allOptions.Except(roomsTakenInSlot).Select(option => new SelectListItem {Value = option, Text = option,}).ToList();
+            var optionsTakenInSlot = activitiesInSlot.Select(activity => activity[propertyName]).ToList().Distinct();
+            var selectListItem = allOptions.Except(optionsTakenInSlot).Select(option => new SelectListItem {Value = option, Text = option,}).ToList();
 
             if (editedActivity != null)
             {
@@ -71,7 +71,7 @@ namespace Z01.Models.Planner
 
         private static List<SelectListItem> CreateDisabledListOfOptions(ActivityModel editedActivity, string property)
         {
-            var newDisabledSelectItem = new SelectListItem() {Value = editedActivity[property], Text = editedActivity[property], Disabled = true};
+            var newDisabledSelectItem = new SelectListItem() {Value = editedActivity[property], Text = editedActivity[property]};
             return new List<SelectListItem> {newDisabledSelectItem};
         }
     }
