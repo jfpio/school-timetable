@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Z01.Data;
 using Z01.Models;
 using Z01.Models.Data;
 using Z01.Models.Planner;
@@ -13,16 +14,19 @@ namespace Z01.Controllers
 {
     public class PlannerController : Controller
     {
-        private readonly ILogger<PlannerController> _logger;
+        private readonly Context _context;
 
-        public PlannerController(ILogger<PlannerController> logger)
+        public PlannerController(Context context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public  IActionResult Index([Bind("Key")] TimetableConfig selectedTimeTableConfig = null)
         {
             var dataModel = DataStorage.GetDataModel();
+
+            _context.Rooms.Add(new Room() {Name = "Test"});
+            _context.SaveChanges();
    
             return View(new PlannerModel(dataModel, selectedTimeTableConfig));
         }
