@@ -48,8 +48,9 @@ namespace Z01.Models.Planner
                 .Select(slot =>
                 activities.FirstOrDefault(
                     activity => 
-                        activity[categoryName].Equals(timetableConfig.Value) && activity.Slot.SlotId == slot
-                        ) ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
+                        activity[categoryName].Name.Equals(timetableConfig.Value) 
+                        && activity.SlotId == slot
+                        ) ?? new NewActivityModel {SlotId = slot}
             );
 
             var aaa = slots.ToList();

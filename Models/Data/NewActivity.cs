@@ -35,7 +35,7 @@ namespace Z01.Models.Data
             set => GetType().GetProperty(propertyName)?.SetValue(this, value);
         }
         
-        public string Key => $"{Slot.SlotId}-{Room}";
+        public string Key => $"{SlotId}-{Room}";
         
         public string ToLabel(Categories categories)
         {
@@ -46,7 +46,7 @@ namespace Z01.Models.Data
             var label = new StringBuilder();
             switch (categories)
             {
-                case Categories.Group:
+                case Categories.ClassGroup:
                     label.AppendJoin(" ", Room.Name, Subject.Name);
                     break;
                 case Categories.Teacher:

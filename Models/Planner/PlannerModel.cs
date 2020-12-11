@@ -40,18 +40,18 @@ namespace Z01.Models.Planner
                 GroupedOptions.Add(
                     new SelectListItem
                     {
-                        Value = $"Group-{group}",
+                        Value = $"ClassGroup-{group.Name}",
                         Text = group.Name,
                         Group = classGroup
                     });
             }
 
-            foreach (var teacher in availableOptions.ClassGroups)
+            foreach (var teacher in availableOptions.Teachers)
             {
                 GroupedOptions.Add(
                     new SelectListItem
                     {
-                        Value = $"Teacher-{teacher}",
+                        Value = $"Teacher-{teacher.Name}",
                         Text = teacher.Name,
                         Group = teacherGroup
                     });
@@ -62,7 +62,7 @@ namespace Z01.Models.Planner
                 GroupedOptions.Add(
                     new SelectListItem
                     {
-                        Value = $"Room-{room}",
+                        Value = $"Room-{room.Name}",
                         Text = room.Name,
                         Group = roomGroup
                     });

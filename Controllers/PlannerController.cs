@@ -30,6 +30,7 @@ namespace Z01.Controllers
                 Subjects = _context.Subjects.ToList(),
                 Teachers = _context.Teachers.ToList()
             };
+            var slots = _context.Slots.ToList();
 
             var activities = _context.Activities.ToList();
             

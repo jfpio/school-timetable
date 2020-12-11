@@ -45,7 +45,7 @@ namespace Z01.Models.Planner
                 case Categories.Room:
                     Rooms = CreateDisabledListOfOptions(editedActivity, "Room");
                     break;
-                case Categories.Group:
+                case Categories.ClassGroup:
                     Groups = CreateDisabledListOfOptions(editedActivity, "Group");
                     break;
                 case Categories.Teacher:

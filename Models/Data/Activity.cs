@@ -45,7 +45,7 @@ namespace Z01.Models.Data
             var label = new StringBuilder();
             switch (categories)
             {
-                case Categories.Group:
+                case Categories.ClassGroup:
                     label.AppendJoin(" ", Room, Subject);
                     break;
                 case Categories.Teacher:
