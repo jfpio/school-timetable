@@ -27,7 +27,7 @@ namespace Z01
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContextPool<Context>(
+            services.AddDbContextPool<PlannerContext>(
                     dbContextOptions => dbContextOptions
                         .UseMySQL(
                             "server=localhost;port=33060;user=root;password=testtest;database=test"

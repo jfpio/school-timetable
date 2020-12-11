@@ -14,9 +14,9 @@ namespace Z01.Controllers
 {
     public class PlannerController : Controller
     {
-        private readonly Context _context;
+        private readonly PlannerContext _context;
 
-        public PlannerController(Context context)
+        public PlannerController(PlannerContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace Z01.Controllers
         {
             var dataModel = DataStorage.GetDataModel();
 
-            _context.Rooms.Add(new Room() {Name = "Test"});
+            var test = _context.Rooms.ToList();
             _context.SaveChanges();
    
             return View(new PlannerModel(dataModel, selectedTimeTableConfig));

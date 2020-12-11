@@ -4,9 +4,9 @@ using Z01.Models.Data;
 
 namespace Z01.Data
 {
-    public class Context : DbContext
+    public class PlannerContext : DbContext
     {
-        public Context (DbContextOptions<Context> options)
+        public PlannerContext (DbContextOptions<PlannerContext> options)
             : base(options)
         {
         }
