@@ -7,7 +7,7 @@ namespace Z01.Models.Data
     public class NewActivityModel
     {
         [Key]
-        public string ActivityId { get; set; }
+        public int ActivityId { get; set; }
         
         [ForeignKey("Slot")]
         public int SlotId { get; set; }
@@ -35,10 +35,14 @@ namespace Z01.Models.Data
             set => GetType().GetProperty(propertyName)?.SetValue(this, value);
         }
         
-        public string Key => $"{Slot}-{Room}";
+        public string Key => $"{Slot.SlotId}-{Room}";
         
         public string ToLabel(Categories categories)
         {
+            if (ActivityId == 0)
+            {
+                return " ";
+            }
             var label = new StringBuilder();
             switch (categories)
             {

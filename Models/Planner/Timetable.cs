@@ -43,20 +43,16 @@ namespace Z01.Models.Planner
 
             var categoryName = timetableConfig.Type.ToString();
 
-            // var slots = Enumerable
-            //     .Range(1, 48)
-            //     .Select(slot =>
-            //     activities.FirstOrDefault(
-            //         activity => 
-            //             activity[categoryName].Equals(timetableConfig.Value) && activity.Slot.SlotId == slot
-            //             ) ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
-            // );
-            
-            var slots = Enumerable.Range(1, 48).Select(slot =>
-                activities.FirstOrDefault(activity =>
-                    activity[timetableConfig.Type.ToString()]?.Id == timetableConfig.Value && activity.Slot.SlotId == slot)
-                ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
+            var slots = Enumerable
+                .Range(1, 48)
+                .Select(slot =>
+                activities.FirstOrDefault(
+                    activity => 
+                        activity[categoryName].Equals(timetableConfig.Value) && activity.Slot.SlotId == slot
+                        ) ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
             );
+
+            var aaa = slots.ToList();
             
             return TableRowLabels.ToDictionary(
                 label => label.Value,
