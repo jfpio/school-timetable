@@ -10,13 +10,11 @@ namespace Z01.Data
             : base(options)
         {
         }
-        public DbSet<Room> Rooms { get; set; }
         public DbSet<NewActivityModel> Activities { get; set; }
-        
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Room>().ToTable("Rooms");
-            modelBuilder.Entity<NewActivityModel>().ToTable("Activities");
-        }
+        public DbSet<Slot> Slots { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<ClassGroup> ClassGroups { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
     }
 }

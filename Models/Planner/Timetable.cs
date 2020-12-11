@@ -25,33 +25,39 @@ namespace Z01.Models.Planner
             {8, "16:30-17:15"}
         };
 
-        public Dictionary<string, Dictionary<string, ActivityModel>> Records;
+        public Dictionary<string, Dictionary<string, NewActivityModel>> Records;
 
-        public Timetable(List<ActivityModel> activities, TimetableConfig timetableConfig)
+        public Timetable(List<NewActivityModel> activities, TimetableConfig timetableConfig)
         {
             TimetableConfig = timetableConfig;
             Records = ParseActivitiesToRecords(activities, timetableConfig);
         }
 
-        private static Dictionary<string, Dictionary<string, ActivityModel>> ParseActivitiesToRecords(
-                List<ActivityModel> activities,
-                TimetableConfig timetableConfig
+        private static Dictionary<string, Dictionary<string, NewActivityModel>> ParseActivitiesToRecords(
+            List<NewActivityModel> activities,
+            TimetableConfig timetableConfig
             )
         {
             if (timetableConfig.Type == Categories.None)
-                return new Dictionary<string, Dictionary<string, ActivityModel>>();
+                return new Dictionary<string, Dictionary<string, NewActivityModel>>();
 
             var categoryName = timetableConfig.Type.ToString();
 
-            var slots = Enumerable
-                .Range(1, 48)
-                .Select(slot =>
-                activities.FirstOrDefault(
-                    activity => 
-                        activity[categoryName].Equals(timetableConfig.Value) && activity.Slot == slot
-                        ) ?? new ActivityModel() {Slot = slot}
+            // var slots = Enumerable
+            //     .Range(1, 48)
+            //     .Select(slot =>
+            //     activities.FirstOrDefault(
+            //         activity => 
+            //             activity[categoryName].Equals(timetableConfig.Value) && activity.Slot.SlotId == slot
+            //             ) ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
+            // );
+            
+            var slots = Enumerable.Range(1, 48).Select(slot =>
+                activities.FirstOrDefault(activity =>
+                    activity[timetableConfig.Type.ToString()]?.Id == timetableConfig.Value && activity.Slot.SlotId == slot)
+                ?? new NewActivityModel {Slot = new Slot {SlotId = slot}}
             );
-
+            
             return TableRowLabels.ToDictionary(
                 label => label.Value,
                 label => slots.Skip(5 * label.Key).Take(5)

@@ -21,14 +21,19 @@ namespace Z01.Controllers
             _context = context;
         }
 
-        public  IActionResult Index([Bind("Key")] TimetableConfig selectedTimeTableConfig = null)
+        public IActionResult Index([Bind("Key")] TimetableConfig selectedTimeTableConfig = null)
         {
-            var dataModel = DataStorage.GetDataModel();
+            var availableOptions = new AvailableOptions
+            {
+                ClassGroups = _context.ClassGroups.ToList(),
+                Rooms = _context.Rooms.ToList(),
+                Subjects = _context.Subjects.ToList(),
+                Teachers = _context.Teachers.ToList()
+            };
 
-            var test = _context.Rooms.ToList();
-            _context.SaveChanges();
-   
-            return View(new PlannerModel(dataModel, selectedTimeTableConfig));
+            var activities = _context.Activities.ToList();
+            
+            return View(new PlannerModel(activities, availableOptions, selectedTimeTableConfig));
         }
 
         public IActionResult EditSlot(int? id, int slot, string key)

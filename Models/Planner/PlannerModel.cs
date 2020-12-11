@@ -14,53 +14,56 @@ namespace Z01.Models.Planner
         public Timetable TableModel { get; private set; }
 
 
-        public PlannerModel(DataModel data, TimetableConfig timetableConfig = null)
+        public PlannerModel(
+            List<NewActivityModel> activities,
+            AvailableOptions availableOptions,
+            TimetableConfig timetableConfig = null)
         {
-            InitializeSelect(data);
+            InitializeSelect(activities, availableOptions);
             if (timetableConfig != null) 
-                InitializeTable(data, timetableConfig);
+                InitializeTable(activities, timetableConfig);
         }
 
-        private void InitializeTable(DataModel data, TimetableConfig timetableConfig)
+        private void InitializeTable(List<NewActivityModel> activities, TimetableConfig timetableConfig)
         {
-            TableModel = new Timetable(data.Activities, timetableConfig);
+            TableModel = new Timetable(activities, timetableConfig);
         }
 
-        private void InitializeSelect(DataModel data)
+        private void InitializeSelect(List<NewActivityModel> activities, AvailableOptions availableOptions)
         {
             var classGroup = new SelectListGroup {Name = "Klasy"};
             var teacherGroup = new SelectListGroup {Name = "Nauczyciele"};
             var roomGroup = new SelectListGroup {Name = "Sale"};
 
-            foreach (var group in data.Groups)
+            foreach (var group in availableOptions.ClassGroups)
             {
                 GroupedOptions.Add(
                     new SelectListItem
                     {
                         Value = $"Group-{group}",
-                        Text = group,
+                        Text = group.Name,
                         Group = classGroup
                     });
             }
 
-            foreach (var teacher in data.Teachers)
+            foreach (var teacher in availableOptions.ClassGroups)
             {
                 GroupedOptions.Add(
                     new SelectListItem
                     {
                         Value = $"Teacher-{teacher}",
-                        Text = teacher,
+                        Text = teacher.Name,
                         Group = teacherGroup
                     });
             }
 
-            foreach (var room in data.Rooms)
+            foreach (var room in availableOptions.Rooms)
             {
                 GroupedOptions.Add(
                     new SelectListItem
                     {
                         Value = $"Room-{room}",
-                        Text = room,
+                        Text = room.Name,
                         Group = roomGroup
                     });
             }

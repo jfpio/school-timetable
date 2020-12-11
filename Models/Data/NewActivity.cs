@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace Z01.Models.Data
 {
@@ -27,5 +28,32 @@ namespace Z01.Models.Data
         [ForeignKey("ClassGroup")]
         public int ClassGroupId { get; set; }
         public virtual ClassGroup ClassGroup { get; set; }
+        
+        public dynamic this[string propertyName]
+        {
+            get => GetType().GetProperty(propertyName)?.GetValue(this, null);
+            set => GetType().GetProperty(propertyName)?.SetValue(this, value);
+        }
+        
+        public string Key => $"{Slot}-{Room}";
+        
+        public string ToLabel(Categories categories)
+        {
+            var label = new StringBuilder();
+            switch (categories)
+            {
+                case Categories.Group:
+                    label.AppendJoin(" ", Room.Name, Subject.Name);
+                    break;
+                case Categories.Teacher:
+                    label.AppendJoin(" ", Room.Name, Subject.Name, ClassGroup.Name);
+                    break;
+                case Categories.Room:
+                    label.Append(ClassGroup.Name);
+                    break;
+            }
+
+            return label.ToString();
+        }
     }
 }
