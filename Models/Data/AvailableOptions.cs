@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Z01.Models.Entities;
 
 namespace Z01.Models.Data
 {

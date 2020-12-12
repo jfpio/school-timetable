@@ -2,8 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Z01.Models.Data;
 
-namespace Z01.Models.Data
+namespace Z01.Models.Entities
 {
     public class NewActivityModel
     {

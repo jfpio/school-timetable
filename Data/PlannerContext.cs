@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Z01.Models;
 using Z01.Models.Data;
+using Z01.Models.Entities;
 
 namespace Z01.Data
 {

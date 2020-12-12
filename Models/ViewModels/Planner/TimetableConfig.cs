@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Z01.Models.Data;
 
-
-
-namespace Z01.Models.Planner
+namespace Z01.Models.ViewModels.Planner
 {
     public class TimetableConfig
     {

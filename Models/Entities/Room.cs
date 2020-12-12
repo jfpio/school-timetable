@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Z01.Models.Data
+namespace Z01.Models.Entities
 {
     public class Room
     {

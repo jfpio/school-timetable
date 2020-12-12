@@ -1,12 +1,10 @@
-using System;
-using Z01;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Z01.Models.Data;
+using Z01.Models.Entities;
 
-namespace Z01.Models.Planner
+namespace Z01.Models.ViewModels.Planner
 {
     public class EditSlot
     {

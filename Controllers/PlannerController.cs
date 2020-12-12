@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 using Z01.Data;
 using Z01.Models;
 using Z01.Models.Data;
-using Z01.Models.Planner;
+using Z01.Models.Entities;
+using Z01.Models.ViewModels.Planner;
 
 namespace Z01.Controllers
 {

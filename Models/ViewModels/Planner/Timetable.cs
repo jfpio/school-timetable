@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Z01.Models.Data;
+using Z01.Models.Entities;
 
-
-namespace Z01.Models.Planner
+namespace Z01.Models.ViewModels.Planner
 {
     public class Timetable
     { 

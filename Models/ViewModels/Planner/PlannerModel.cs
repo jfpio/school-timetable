@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Z01.Models.Data;
+using Z01.Models.Entities;
 
-namespace Z01.Models.Planner
+namespace Z01.Models.ViewModels.Planner
 {
 
     public class PlannerModel
