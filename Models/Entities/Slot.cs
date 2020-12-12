@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Z01.Models.Data
 {
@@ -11,5 +13,9 @@ namespace Z01.Models.Data
         public string Name { get; set; }
         [StringLength(4000)]
         public string Comment { get; set; }
+        
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Timestamp { get; set; }
+
     }
 }

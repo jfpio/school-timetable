@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -28,6 +29,10 @@ namespace Z01.Models.Data
         [ForeignKey("ClassGroup")]
         public int ClassGroupId { get; set; }
         public virtual ClassGroup ClassGroup { get; set; }
+        
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Timestamp { get; set; }
+
         
         public dynamic this[string propertyName]
         {
