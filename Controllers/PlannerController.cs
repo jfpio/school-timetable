@@ -90,9 +90,9 @@ namespace Z01.Controllers
 
         public IActionResult Delete(int id)
         {
-            var data = DataStorage.GetDataModel();
-            data.DeleteActivity(id);
-            DataStorage.SaveDataModel(data);
+            var activity = _context.Activities.Find(id);
+            _context.Remove(activity);
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
         
@@ -113,14 +113,10 @@ namespace Z01.Controllers
                 .Where(a => a.SlotId == activityModel.SlotId)
                 .Where(a => a.ActivityId != activityModel.ActivityId);
 
-            var aaa = activitiesInSlot.Select(a => a.RoomId).Contains(activityModel.RoomId);
-            var bbb = activitiesInSlot.Select(a => a.SubjectId).Contains(activityModel.SubjectId);
-            var c = activitiesInSlot.Select(a => a.RoomId).Contains(activityModel.RoomId)
+            return activitiesInSlot.Select(a => a.RoomId).Contains(activityModel.RoomId)
                    || activitiesInSlot.Select(a => a.SubjectId).Contains(activityModel.SubjectId)
                    || activitiesInSlot.Select(a => a.TeacherId).Contains(activityModel.TeacherId)
                    || activitiesInSlot.Select(a => a.ClassGroupId).Contains(activityModel.ClassGroupId);
-
-            return c;
         }
     }
 }
