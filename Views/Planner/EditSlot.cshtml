@@ -8,14 +8,14 @@
 @if (Model.EditedActivity != null)
 {
     <div about="col-md-7">
-        Edytowany wpis ma id @Model.EditedActivity.Id, odbywa się w slocie @Model.Slot, w sali  @Model.EditedActivity.Room,
-        dla klasy @Model.EditedActivity.Group, dla przedmiotu @Model.EditedActivity.Subject, przez nauczyciela @Model.EditedActivity.Teacher
+        Edytowany wpis ma id @Model.EditedActivity.ActivityId, odbywa się w slocie @Model.Slot, w sali  @Model.EditedActivity.Room.Name,
+        dla klasy @Model.EditedActivity.ClassGroup.Name, dla przedmiotu @Model.EditedActivity.Subject.Name, przez nauczyciela @Model.EditedActivity.Teacher.Name
     </div>
 }
 else
 {
     <div about="col-md-7">
-        Dodajesz wpis dla slotu @Model.Slot
+        Dodajesz wpis dla slotu 
     </div>
 }
 
@@ -25,7 +25,7 @@ else
     <div class="col-md-4">
 
         <form asp-action="EditSlot">
-            <input type="hidden" asp-for="EditedActivity.Id"/>
+            <input type="hidden" asp-for="EditedActivity.ActivityId"/>
             <input type="hidden" asp-for="EditedActivity.Slot"/>
 
             <div class="form-group" id="form-group-rooms">
@@ -36,7 +36,7 @@ else
 
             <div class="form-group" id="form-group-groups">
                 <label class="control-label">Klasa</label>
-                <select id="sel-groups" class="form-control" asp-for="EditedActivity.Group" asp-items="@(Model.Groups)">
+                <select id="sel-groups" class="form-control" asp-for="EditedActivity.ClassGroup" asp-items="@(Model.ClassGroups)">
                 </select>
             </div>
 
@@ -56,7 +56,7 @@ else
                 <input type="submit" value="Zapisz" class="btn btn-primary"/>
                 @if (Model.EditedActivity != null)
                 {
-                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.EditedActivity.Id">
+                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.EditedActivity.ActivityId">
                         Usuń wpis
                     </a>
                 }

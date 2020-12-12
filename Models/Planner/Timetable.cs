@@ -53,8 +53,6 @@ namespace Z01.Models.Planner
                         ) ?? new NewActivityModel {SlotId = slot}
             );
 
-            var aaa = slots.ToList();
-            
             return TableRowLabels.ToDictionary(
                 label => label.Value,
                 label => slots.Skip(5 * label.Key).Take(5)

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Z01.Data;
 using Z01.Models;
@@ -39,12 +40,25 @@ namespace Z01.Controllers
 
         public IActionResult EditSlot(int? id, int slot, string key)
         {
-            
             var selectedTimeTableConfig = new TimetableConfig() {Key = key};
-            var dataModel = DataStorage.GetDataModel();
-            var editedActivity = dataModel.Activities.Find(activity => activity.Id == id);
+            var editedActivity = _context.Activities.Find(id);
 
-            return View(new EditSlot(slot, selectedTimeTableConfig, editedActivity));
+            var activitiesInSlot = _context.Activities.Where(a => a.SlotId == slot);
+            
+            var takenRooms = activitiesInSlot.Select(a => a.Room).ToList();
+            var takenTeachers = activitiesInSlot.Select(a => a.Teacher).ToList();
+            var takenSubjects = activitiesInSlot.Select(a => a.Subject).ToList();
+            var takenClassGroups = activitiesInSlot.Select(a => a.ClassGroup).ToList();
+
+            var availableOptions = new AvailableOptions
+            {
+                Rooms = _context.Rooms.Where(i => !takenRooms.Contains(i)).ToList(),
+                Teachers = _context.Teachers.Where(i => !takenTeachers.Contains(i)).ToList(),
+                Subjects = _context.Subjects.Where(i => !takenSubjects.Contains(i)).ToList(),
+                ClassGroups = _context.ClassGroups.Where(i => !takenClassGroups.Contains(i)).ToList()
+            };
+
+            return View(new EditSlot(slot, selectedTimeTableConfig, availableOptions, editedActivity));
         }
 
         [HttpPost]

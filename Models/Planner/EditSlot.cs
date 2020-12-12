@@ -10,43 +10,42 @@ namespace Z01.Models.Planner
 {
     public class EditSlot
     {
-        public ActivityModel EditedActivity { get; set; }
-        public string Key { get; }
-        public Categories ImmutableCategoryOfEditedActivity { get; }
+        public NewActivityModel EditedActivity { get; set; }
+        private string Key { get; }
+        private Categories ImmutableCategoryOfEditedActivity { get; }
 
         public int Slot { get; set; }
         
         public List<SelectListItem> Rooms { get; }
         
-        public List<SelectListItem> Groups { get; }
+        public List<SelectListItem> ClassGroups { get; }
         
         public List<SelectListItem> Subjects { get; }
         
         public List<SelectListItem> Teachers { get; }
         
 
-        public EditSlot(int slot, TimetableConfig timetableConfig, ActivityModel editedActivity = null)
+        public EditSlot(int slot, TimetableConfig timetableConfig, AvailableOptions availableOptions, NewActivityModel editedActivity = null)
         {
             ImmutableCategoryOfEditedActivity = timetableConfig.Type;
             Key = timetableConfig.Key;
             EditedActivity = editedActivity;
             Slot = slot;
-            var data = DataStorage.GetDataModel();
-            var activitiesInSlot = data.Activities.Where(activity => activity.Slot == Slot).ToList();
 
-            Rooms = GetAvailableOptions(data.Rooms, "Room", activitiesInSlot, editedActivity);
-            Groups = GetAvailableOptions(data.Groups, "Group", activitiesInSlot, editedActivity);
-            Subjects = GetAvailableOptions(data.Subjects, "Subject", activitiesInSlot, editedActivity);
-            Teachers = GetAvailableOptions(data.Teachers, "Teacher", activitiesInSlot, editedActivity);
+            Rooms = availableOptions.Rooms.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
+            ClassGroups = availableOptions.ClassGroups.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
+            Subjects = availableOptions.Subjects.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
+            Teachers = availableOptions.Teachers.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
 
             if (editedActivity == null) return;
+            
             switch (timetableConfig.Type)
             {
                 case Categories.Room:
                     Rooms = CreateDisabledListOfOptions(editedActivity, "Room");
                     break;
                 case Categories.ClassGroup:
-                    Groups = CreateDisabledListOfOptions(editedActivity, "Group");
+                    ClassGroups = CreateDisabledListOfOptions(editedActivity, "ClassGroup");
                     break;
                 case Categories.Teacher:
                     Teachers = CreateDisabledListOfOptions(editedActivity, "Teacher");
@@ -55,23 +54,10 @@ namespace Z01.Models.Planner
             }
 
         }
-        
-        private static List<SelectListItem> GetAvailableOptions(IEnumerable<string> allOptions, string propertyName, List<ActivityModel> activitiesInSlot, ActivityModel editedActivity)
+
+        private static List<SelectListItem> CreateDisabledListOfOptions(NewActivityModel editedActivity, string property)
         {
-            var optionsTakenInSlot = activitiesInSlot.Select(activity => activity[propertyName]).ToList().Distinct();
-            var selectListItem = allOptions.Except(optionsTakenInSlot).Select(option => new SelectListItem {Value = option, Text = option,}).ToList();
-
-            if (editedActivity != null)
-            {
-                selectListItem.Add(new SelectListItem {Value = editedActivity[propertyName], Text = editedActivity[propertyName]});
-            }
-
-            return selectListItem;
-        }
-
-        private static List<SelectListItem> CreateDisabledListOfOptions(ActivityModel editedActivity, string property)
-        {
-            var newDisabledSelectItem = new SelectListItem() {Value = editedActivity[property], Text = editedActivity[property]};
+            var newDisabledSelectItem = new SelectListItem() {Value = editedActivity[property].Name, Text = editedActivity[property].Name};
             return new List<SelectListItem> {newDisabledSelectItem};
         }
     }
