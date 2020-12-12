@@ -32,33 +32,40 @@ namespace Z01.Models.Planner
             EditedActivity = editedActivity;
             Slot = slot;
 
-            Rooms = availableOptions.Rooms.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
-            ClassGroups = availableOptions.ClassGroups.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
-            Subjects = availableOptions.Subjects.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
-            Teachers = availableOptions.Teachers.Select(option => new SelectListItem {Value = option.Name, Text = option.Name,}).ToList();
+            Rooms = availableOptions.Rooms.Select(option => new SelectListItem {Value = $"{option.RoomId}", Text = option.Name,}).ToList();
+            ClassGroups = availableOptions.ClassGroups.Select(option => new SelectListItem {Value = $"{option.ClassGroupId}", Text = option.Name,}).ToList();
+            Subjects = availableOptions.Subjects.Select(option => new SelectListItem {Value = $"{option.SubjectId}", Text = option.Name,}).ToList();
+            Teachers = availableOptions.Teachers.Select(option => new SelectListItem {Value = $"{option.TeacherId}", Text = option.Name,}).ToList();
 
-            if (editedActivity == null) return;
+            if (editedActivity == null)
+            {
+                EditedActivity = new NewActivityModel {SlotId = slot, ActivityId = 0};
+                return;
+            }
             
             switch (timetableConfig.Type)
             {
                 case Categories.Room:
-                    Rooms = CreateDisabledListOfOptions(editedActivity, "Room");
+                    Rooms = new List<SelectListItem>
+                        {new SelectListItem {Value = $"{editedActivity.RoomId}", Text = editedActivity.Room.Name}};
                     break;
                 case Categories.ClassGroup:
-                    ClassGroups = CreateDisabledListOfOptions(editedActivity, "ClassGroup");
+                    ClassGroups = new List<SelectListItem>
+                    {
+                        new SelectListItem
+                            {Value = $"{editedActivity.ClassGroupId}", Text = editedActivity.ClassGroup.Name}
+                    };
                     break;
                 case Categories.Teacher:
-                    Teachers = CreateDisabledListOfOptions(editedActivity, "Teacher");
+                    Teachers = new List<SelectListItem>
+                    {
+                        new SelectListItem
+                            {Value = $"{editedActivity.TeacherId}", Text = editedActivity.Teacher.Name}
+                    };
                     break;
                 default: return;
             }
 
-        }
-
-        private static List<SelectListItem> CreateDisabledListOfOptions(NewActivityModel editedActivity, string property)
-        {
-            var newDisabledSelectItem = new SelectListItem() {Value = editedActivity[property].Name, Text = editedActivity[property].Name};
-            return new List<SelectListItem> {newDisabledSelectItem};
         }
     }
 }

@@ -31,7 +31,6 @@ namespace Z01.Controllers
                 Subjects = _context.Subjects.ToList(),
                 Teachers = _context.Teachers.ToList()
             };
-            var slots = _context.Slots.ToList();
 
             var activities = _context.Activities.ToList();
             
@@ -42,7 +41,7 @@ namespace Z01.Controllers
         {
             var selectedTimeTableConfig = new TimetableConfig() {Key = key};
             var editedActivity = _context.Activities.Find(id);
-
+            
             var activitiesInSlot = _context.Activities.Where(a => a.SlotId == slot);
             
             var takenRooms = activitiesInSlot.Select(a => a.Room).ToList();
@@ -62,22 +61,30 @@ namespace Z01.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditSlot([Bind("Id, Slot, Room, Subject, Group, Teacher")]
-            ActivityModel editedActivity)
+        public IActionResult EditSlot([Bind("ActivityId, SlotId, RoomId, SubjectId, ClassGroupId, TeacherId")]
+            NewActivityModel editedActivity)
         {
-            var data = DataStorage.GetDataModel();
-            
-            if (editedActivity.Id != 0)
+            if (CheckIfNewActivityIsValid(editedActivity))
             {
-                data.DeleteActivity(editedActivity.Id);
+                throw new Exception("Konflikt!");
             }
-            
-            // TODO Error handling
-            
-            data.AddActivity(editedActivity);
-            
-            DataStorage.SaveDataModel(data);
-            
+            if (editedActivity.ActivityId == 0)
+            {
+                _context.Activities.Add(new NewActivityModel
+                {
+                    ClassGroupId = editedActivity.ClassGroupId,
+                    SubjectId = editedActivity.SubjectId,
+                    RoomId = editedActivity.RoomId,
+                    TeacherId = editedActivity.TeacherId,
+                    SlotId = editedActivity.SlotId
+                });
+            }
+            else
+            {
+                _context.Entry(editedActivity).State = EntityState.Modified;
+            }
+            _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -98,6 +105,22 @@ namespace Z01.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private bool CheckIfNewActivityIsValid(NewActivityModel activityModel)
+        {
+            var activitiesInSlot = _context.Activities
+                .Where(a => a.SlotId == activityModel.SlotId)
+                .Where(a => a.ActivityId != activityModel.ActivityId);
+
+            var aaa = activitiesInSlot.Select(a => a.RoomId).Contains(activityModel.RoomId);
+            var bbb = activitiesInSlot.Select(a => a.SubjectId).Contains(activityModel.SubjectId);
+            var c = activitiesInSlot.Select(a => a.RoomId).Contains(activityModel.RoomId)
+                   || activitiesInSlot.Select(a => a.SubjectId).Contains(activityModel.SubjectId)
+                   || activitiesInSlot.Select(a => a.TeacherId).Contains(activityModel.TeacherId)
+                   || activitiesInSlot.Select(a => a.ClassGroupId).Contains(activityModel.ClassGroupId);
+
+            return c;
         }
     }
 }
