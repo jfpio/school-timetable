@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Z01.Data;
 
 namespace Z01.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20201212220409_addconcurencyhandlingwithsomenewideas")]
+    partial class addconcurencyhandlingwithsomenewideas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

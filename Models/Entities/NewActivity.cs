@@ -6,7 +6,7 @@ using Z01.Models.Data;
 
 namespace Z01.Models.Entities
 {
-    public class NewActivityModel
+    public class NewActivityModel : ISavingChanges
     {
         [Key]
         public int ActivityId { get; set; }
@@ -29,10 +29,11 @@ namespace Z01.Models.Entities
         
         [ForeignKey("ClassGroup")]
         public int ClassGroupId { get; set; }
+
         public virtual ClassGroup ClassGroup { get; set; }
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Timestamp { get; set; }
+        [ConcurrencyCheck]
+        public long RowVersion { get; set; }
 
         
         public dynamic this[string propertyName]
@@ -65,5 +66,14 @@ namespace Z01.Models.Entities
 
             return label.ToString();
         }
+        public void OnSavingChanges()
+        {
+            RowVersion++;
+        }
     }
+}
+
+interface ISavingChanges
+{
+    void OnSavingChanges();
 }

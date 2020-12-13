@@ -25,6 +25,7 @@ namespace Z01.Controllers
 
         public IActionResult Index([Bind("Key")] TimetableConfig selectedTimeTableConfig = null)
         {
+            
             var availableOptions = new AvailableOptions
             {
                 ClassGroups = _context.ClassGroups.ToList(),
@@ -34,7 +35,7 @@ namespace Z01.Controllers
             };
 
             var activities = _context.Activities.ToList();
-            
+
             return View(new PlannerModel(activities, availableOptions, selectedTimeTableConfig));
         }
 
@@ -62,7 +63,7 @@ namespace Z01.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditSlot([Bind("ActivityId, SlotId, RoomId, SubjectId, ClassGroupId, TeacherId")]
+        public IActionResult EditSlot([Bind("ActivityId, SlotId, RoomId, SubjectId, ClassGroupId, TeacherId, RowVersion")]
             NewActivityModel editedActivity)
         {
             if (CheckIfNewActivityIsValid(editedActivity))
@@ -77,14 +78,24 @@ namespace Z01.Controllers
                     SubjectId = editedActivity.SubjectId,
                     RoomId = editedActivity.RoomId,
                     TeacherId = editedActivity.TeacherId,
-                    SlotId = editedActivity.SlotId
+                    SlotId = editedActivity.SlotId,
+                    RowVersion = 1
                 });
             }
             else
             {
                 _context.Entry(editedActivity).State = EntityState.Modified;
             }
-            _context.SaveChanges();
+            
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new NotSupportedException(
+                    "Konflikt, ktoś musiał nadpisać dane. Spróbuj jeszcze raz");
+            }
 
             return RedirectToAction(nameof(Index));
         }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Z01.Data;
 
 namespace Z01.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20201212212316_addconcurencyhandling1")]
+    partial class addconcurencyhandling1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +55,10 @@ namespace Z01.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<long>("RowVersion")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("varbinary(4000)");
 
                     b.Property<int>("SlotId")
                         .HasColumnType("int");

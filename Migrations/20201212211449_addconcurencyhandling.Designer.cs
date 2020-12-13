@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Z01.Data;
 
 namespace Z01.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20201212211449_addconcurencyhandling")]
+    partial class addconcurencyhandling
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,23 +50,28 @@ namespace Z01.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ClassGroupId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
-                    b.Property<long>("RowVersion")
-                        .IsConcurrencyToken()
-                        .HasColumnType("bigint");
-
                     b.Property<int>("SlotId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime");
 
                     b.HasKey("ActivityId");
 

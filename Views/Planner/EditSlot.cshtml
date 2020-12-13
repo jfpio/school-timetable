@@ -27,6 +27,8 @@ else
         <form asp-action="EditSlot">
             <input type="hidden" asp-for="EditedActivity.ActivityId"/>
             <input type="hidden" asp-for="EditedActivity.SlotId"/>
+            <input type="hidden" asp-for="EditedActivity.RowVersion"/>
+
 
             <div class="form-group" id="form-group-rooms">
                 <label class="control-label">Sala</label>
